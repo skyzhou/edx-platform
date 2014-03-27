@@ -19,7 +19,7 @@ define ["jquery", "jquery.ui", "backbone", "js/views/feedback_prompt", "js/views
       @options.mast.find('.new-tab').on('click', @addNewTab)
       $('.add-pages .new-tab').on('click', @addNewTab)
       $('.toggle-checkbox').on('click', @toggleVisibilityOfTab)
-      @$('.course-nav-tab-list').sortable(
+      @$('.course-nav-list').sortable(
         handle: '.drag-handle'
         update: @tabMoved
         helper: 'clone'
