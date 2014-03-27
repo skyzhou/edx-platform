@@ -69,9 +69,8 @@ def tabs_handler(request, tag=None, package_id=None, branch=None, version_guid=N
             if isinstance(tab, StaticTab):
                 # static tab needs its locator information to render itself as an xmodule
                 static_tab_loc = old_location.replace(category='static_tab', name=tab.url_slug)
-                static_tab = modulestore('direct').get_item(static_tab_loc)
                 tab.locator = loc_mapper().translate_location(
-                    course_item.location.course_id, static_tab.location, False, True
+                    course_item.location.course_id, static_tab_loc, False, True
                 )
             tabs_to_render.append(tab)
 

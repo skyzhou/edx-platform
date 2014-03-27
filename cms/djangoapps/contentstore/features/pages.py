@@ -51,24 +51,24 @@ def change_name(step, new_name):
     world.css_click(save_button)
 
 
-@step(u'I reorder the static pages')
-def reorder_static_pages(_step):
-    reorder_pages_with_css_class('.component')
+@step(u'I drag the first static page to the last$')
+def drag_first_static_page_to_the_last(_step):
+    drag_first_page_to_last_with_css_class('.component')
 
 
-@step(u'I have created a static page')
+@step(u'I have created a static page$')
 def create_static_page(step):
     step.given('I have opened the pages page in a new course')
     step.given('I add a new static page')
 
 
-@step(u'I have opened the pages page in a new course')
+@step(u'I have opened the pages page in a new course$')
 def open_pages_page_in_new_course(step):
     step.given('I have opened a new course in Studio')
     step.given('I go to the pages page')
 
 
-@step(u'I have created two different static pages')
+@step(u'I have created two different static pages$')
 def create_two_pages(step):
     step.given('I have created a static page')
     step.given('I "edit" the static page')
@@ -78,8 +78,8 @@ def create_two_pages(step):
     _verify_page_names('First', 'Empty')
 
 
-@step(u'the static pages are in the reverse order')
-def static_pages_in_reverse_order(step):
+@step(u'the static pages are switched$')
+def static_pages_are_switched(step):
     _verify_page_names('Empty', 'First')
 
 
@@ -90,51 +90,54 @@ def _verify_page_names(first, second):
         timeout_msg="Timed out waiting for two pages to be present"
     )
     pages = world.css_find('.xmodule_StaticTabModule')
-    assert pages[0].text == first
-    assert pages[1].text == second
+    assert_equal(pages[0].text, first)
+    assert_equal(pages[1].text, second)
 
 
-@step(u'the built-in pages are in the default order')
+@step(u'the built-in pages are in the default order$')
 def built_in_pages_in_default_order(step):
     expected_pages = ['Courseware', 'Course Info', 'Discussion', 'Wiki', 'Progress']
     see_pages_in_expected_order(expected_pages)
 
 
-@step(u'the built-in pages are in the reverse order')
-def built_in_pages_in_reverse_order(step):
+@step(u'the built-in pages are switched$')
+def built_in_pages_switched(step):
     expected_pages = ['Courseware', 'Course Info', 'Wiki', 'Progress', 'Discussion']
     see_pages_in_expected_order(expected_pages)
 
 
-@step(u'the pages are in the default order')
+@step(u'the pages are in the default order$')
 def pages_in_default_order(step):
     expected_pages = ['Courseware', 'Course Info', 'Discussion', 'Wiki', 'Progress', 'First', 'Empty']
     see_pages_in_expected_order(expected_pages)
 
 
-@step(u'the pages are in the reverse order')
-def pages_in_reverse_order(step):
+@step(u'the pages are switched$$')
+def pages_are_switched(step):
     expected_pages = ['Courseware', 'Course Info', 'Wiki', 'Progress', 'First', 'Empty', 'Discussion']
     see_pages_in_expected_order(expected_pages)
 
 
-@step(u'I reorder the pages')
-def reorder_pages(step):
-    reorder_pages_with_css_class('.is-movable')
+@step(u'I drag the first page to the last$')
+def drag_first_page_to_last(step):
+    drag_first_page_to_last_with_css_class('.is-movable')
+
+
+css_for_tab_element = "li[data-tab-id='{0}'] input.toggle-checkbox"
 
 
 @step(u'I should see the "([^"]*)" page as "(visible|hidden)"$')
 def page_is_visible_or_hidden(step, page_id, visible_or_hidden):
     hidden = visible_or_hidden == "hidden"
-    assert world.css_find("li[data-tab-id='{0}'] input.toggle-checkbox".format(page_id)).checked == hidden
+    assert_equal(world.css_find(css_for_tab_element.format(page_id)).checked, hidden)
 
 
-@step(u'I toggle the visibility of the "([^"]*)" page')
+@step(u'I toggle the visibility of the "([^"]*)" page$')
 def page_toggle_visibility(step, page_id):
-    world.css_find("li[data-tab-id='{0}'] input.toggle-checkbox".format(page_id))[0].click()
+    world.css_find(css_for_tab_element.format(page_id))[0].click()
 
 
-def reorder_pages_with_css_class(css_class):
+def drag_first_page_to_last_with_css_class(css_class):
     # For some reason, the drag_and_drop method did not work in this case.
     draggables = world.css_find(css_class + ' .drag-handle')
     source = draggables.first

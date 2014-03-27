@@ -918,10 +918,10 @@ def textbooks_detail_handler(request, tid, tag=None, package_id=None, branch=Non
         if not textbook:
             return JsonResponse(status=404)
         i = course.pdf_textbooks.index(textbook)
-        new_textbooks = course.pdf_textbooks[0:i]
-        new_textbooks.extend(course.pdf_textbooks[i + 1:])
-        course.pdf_textbooks = new_textbooks
-        if not new_textbooks:
+        remaining_textbooks = course.pdf_textbooks[0:i]
+        remaining_textbooks.extend(course.pdf_textbooks[i + 1:])
+        course.pdf_textbooks = remaining_textbooks
+        if not remaining_textbooks:
             # if there are no more textbooks, remove the textbookTab from the list of tabs
             textbook_tab = CourseTabList.get_tab_by_id(course.tabs, PDFTextbookTabs.type)
             course.tabs.remove(textbook_tab)
