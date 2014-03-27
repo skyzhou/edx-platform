@@ -16,7 +16,7 @@ from xmodule.modulestore.django import loc_mapper
 from xmodule.modulestore.locator import BlockUsageLocator
 from xmodule.tabs import CourseTabList, StaticTab, CourseTab, InvalidTabsException
 
-from ..utils import get_modulestore
+from ..utils import get_modulestore, get_lms_link_for_item
 
 __all__ = ['tabs_handler']
 
@@ -77,7 +77,8 @@ def tabs_handler(request, tag=None, package_id=None, branch=None, version_guid=N
         return render_to_response('edit-tabs.html', {
             'context_course': course_item,
             'tabs_to_render': tabs_to_render,
-            'course_locator': locator
+            'course_locator': locator,
+            'lms_link': get_lms_link_for_item(course_item.location),
         })
     else:
         return HttpResponseNotFound()
