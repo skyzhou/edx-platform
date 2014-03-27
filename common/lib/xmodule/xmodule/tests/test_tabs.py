@@ -14,6 +14,7 @@ class TabTestCase(unittest.TestCase):
         self.settings = MagicMock()
         self.settings.FEATURES = {}
         self.reverse = lambda name, args: "name/{0}/args/{1}".format(name, ",".join(str(a) for a in args))
+        self.books = None
 
     def set_up_books(self, num_books):
         """initializes the textbooks in the course and adds the given number of books to each textbook"""
@@ -166,18 +167,21 @@ class WikiTestCase(TabTestCase):
         )
 
     def test_wiki_enabled(self):
+        """Test wiki tab when Enabled setting is True"""
 
         self.settings.WIKI_ENABLED = True
         tab = self.check_wiki_tab()
         self.check_can_display_results(tab)
 
     def test_wiki_enabled_false(self):
+        """Test wiki tab when Enabled setting is False"""
 
         self.settings.WIKI_ENABLED = False
         tab = self.check_wiki_tab()
         self.check_can_display_results(tab, expected_value=False)
 
     def test_wiki_visibility(self):
+        """Test toggling of visibility of wiki tab"""
 
         wiki_tab = tabs.WikiTab()
         self.assertTrue(wiki_tab.is_hideable)
