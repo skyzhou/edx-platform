@@ -21,14 +21,15 @@ SELECTORS = {
 DELAY = 0.5
 
 
-@step('youtube stub server is up and proxies YouTube API$')
-def set_real_youtube_api(_step):
-    world.youtube.config['youtube_api_blocked'] = False
-
-
-@step('youtube stub server is up and blocks YouTube API$')
-def block_youtube_api(_step):
-    world.youtube.config['youtube_api_blocked'] = True
+@step('youtube stub server (.*) YouTube API')
+def configure_youtube_api(_step, action):
+    action=action.strip()
+    if action == 'proxies':
+        world.youtube.config['youtube_api_blocked'] = False
+    elif action == 'blocks':
+        world.youtube.config['youtube_api_blocked'] = True
+    else:
+        raise ValueError('Parameter `action` should be one of "proxies" or "blocks".')
 
 
 @step('We explicitly wait for YouTube API to not load$')
@@ -92,6 +93,8 @@ def i_have_uploaded_subtitles(_step, sub_id):
 
 @step('when I view the (.*) it does not have autoplay enabled$')
 def does_not_autoplay(_step, video_type):
+    world.wait(DELAY)
+    world.wait_for_ajax_complete()
     actual = world.css_find('.%s' % video_type)[0]['data-autoplay']
     expected = [u'False', u'false', False]
     assert actual in expected
@@ -215,20 +218,18 @@ def see_a_range_slider_with_proper_range(_step):
     assert world.css_visible(".slider-range")
 
 
-@step('I do not see video button "([^"]*)"$')
-def do_not_see_button_video(_step, button_type):
+@step('I (.*) see video button "([^"]*)"$')
+def do_not_see_or_not_button_video(_step, action, button_type):
     world.wait(DELAY)
     world.wait_for_ajax_complete()
+    action=action.strip()
     button = button_type.strip()
-    assert not world.is_css_present(VIDEO_BUTTONS[button])
-
-
-@step('I see video button "([^"]*)"$')
-def see_button_video(_step, button_type):
-    world.wait(DELAY)
-    world.wait_for_ajax_complete()
-    button = button_type.strip()
-    assert world.css_visible(VIDEO_BUTTONS[button])
+    if action == 'do not':
+        assert not world.is_css_present(VIDEO_BUTTONS[button])
+    elif action == 'can':
+        assert world.css_visible(VIDEO_BUTTONS[button])
+    else:
+        raise ValueError('Parameter `action` should be one of "do not" or "can".')
 
 
 @step('I click video button "([^"]*)"$')

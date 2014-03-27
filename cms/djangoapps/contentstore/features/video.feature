@@ -4,14 +4,15 @@ Feature: CMS Video Component
 
   # 1
   Scenario: YouTube stub server proxies YouTube API correctly
-    Given youtube stub server is up and proxies YouTube API
+    Given youtube stub server proxies YouTube API
     Given I have created a Video component
+    Then I can see video button "play"
     And I click video button "play"
-    Then I see video button "pause"
+    Then I can see video button "pause"
 
   # 2
   Scenario: YouTube stub server can block YouTube API
-    Given youtube stub server is up and blocks YouTube API
+    Given youtube stub server blocks YouTube API
     Given I have created a Video component
     Given We explicitly wait for YouTube API to not load
     Then I do not see video button "play"
@@ -79,54 +80,54 @@ Feature: CMS Video Component
 
   # 11
   # Disabled 2/19/14 after intermittent failures in master
-  # Scenario: Check that position is stored on page refresh, position within start-end range
-  #   Given I have created a Video component with subtitles
-  #   And Make sure captions are closed
-  #   And I edit the component
-  #   And I open tab "Advanced"
-  #   And I set value "00:00:12" to the field "Start Time"
-  #   And I set value "00:00:24" to the field "End Time"
-  #   And I save changes
-  #   And I click video button "play"
-  #   Then I see a range on slider
-  #   Then I seek video to "16" seconds
-  #   And I click video button "pause"
-  #   And I reload the page
-  #   And I click video button "play"
-  #   Then I see video starts playing from "0:16" position
+  #Scenario: Check that position is stored on page refresh, position within start-end range
+  #  Given I have created a Video component with subtitles
+  #  And Make sure captions are closed
+  #  And I edit the component
+  #  And I open tab "Advanced"
+  #  And I set value "00:00:12" to the field "Start Time"
+  #  And I set value "00:00:24" to the field "End Time"
+  #  And I save changes
+  #  And I click video button "play"
+  #  Then I see a range on slider
+  #  Then I seek video to "16" seconds
+  #  And I click video button "pause"
+  #  And I reload the page
+  #  And I click video button "play"
+  #  Then I see video starts playing from "0:16" position
 
   # 12
-  # Disabled 2/18/14 after intermittent failures in master
-  # Scenario: Check that position is stored on page refresh, position before start-end range
-  #   Given I have created a Video component with subtitles
-  #   And Make sure captions are closed
-  #   And I edit the component
-  #   And I open tab "Advanced"
-  #   And I set value "00:00:12" to the field "Start Time"
-  #   And I set value "00:00:24" to the field "End Time"
-  #   And I save changes
-  #   And I click video button "play"
-  #   Then I see a range on slider
-  #   Then I seek video to "5" seconds
-  #   And I click video button "pause"
-  #   And I reload the page
-  #   And I click video button "play"
-  #   Then I see video starts playing from "0:12" position
+# Disabled 2/18/14 after intermittent failures in master
+#  Scenario: Check that position is stored on page refresh, position before start-end range
+#    Given I have created a Video component with subtitles
+#    And Make sure captions are closed
+#    And I edit the component
+#    And I open tab "Advanced"
+#    And I set value "00:00:12" to the field "Start Time"
+#    And I set value "00:00:24" to the field "End Time"
+#    And I save changes
+#    And I click video button "play"
+#    Then I see a range on slider
+#    Then I seek video to "5" seconds
+#    And I click video button "pause"
+#    And I reload the page
+#    And I click video button "play"
+#    Then I see video starts playing from "0:12" position
 
   # 13
-  # Disabled 2/18/14 after intermittent failures in master
-  # Scenario: Check that position is stored on page refresh, position after start-end range
-  #   Given I have created a Video component with subtitles
-  #   And Make sure captions are closed
-  #   And I edit the component
-  #   And I open tab "Advanced"
-  #   And I set value "00:00:12" to the field "Start Time"
-  #   And I set value "00:00:24" to the field "End Time"
-  #   And I save changes
-  #   And I click video button "play"
-  #   Then I see a range on slider
-  #   Then I seek video to "30" seconds
-  #   And I click video button "pause"
-  #   And I reload the page
-  #   And I click video button "play"
-  #   Then I see video starts playing from "0:12" position
+# Disabled 2/18/14 after intermittent failures in master
+#  Scenario: Check that position is stored on page refresh, position after start-end range
+#    Given I have created a Video component with subtitles
+#    And Make sure captions are closed
+#    And I edit the component
+#    And I open tab "Advanced"
+#    And I set value "00:00:12" to the field "Start Time"
+#    And I set value "00:00:24" to the field "End Time"
+#    And I save changes
+#    And I click video button "play"
+#    Then I see a range on slider
+#    Then I seek video to "30" seconds
+#    And I click video button "pause"
+#    And I reload the page
+#    And I click video button "play"
+#    Then I see video starts playing from "0:12" position
