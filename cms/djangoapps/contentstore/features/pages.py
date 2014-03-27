@@ -120,7 +120,7 @@ def pages_in_reverse_order(step):
 
 @step(u'I reorder the pages')
 def reorder_pages(step):
-    reorder_pages_with_css_class('.sortable-tab')
+    reorder_pages_with_css_class('.is-movable')
 
 
 @step(u'I should see the "([^"]*)" page as "(visible|hidden)"$')
