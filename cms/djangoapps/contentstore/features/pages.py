@@ -6,6 +6,9 @@ from lettuce import world, step
 from nose.tools import assert_equal, assert_in  # pylint: disable=E0611
 
 
+CSS_FOR_TAB_ELEMENT = "li[data-tab-id='{0}'] input.toggle-checkbox"
+
+
 @step(u'I go to the pages page$')
 def go_to_static(step):
     menu_css = 'li.nav-course-courseware'
@@ -52,8 +55,8 @@ def change_name(step, new_name):
 
 
 @step(u'I drag the first static page to the last$')
-def drag_first_static_page_to_the_last(_step):
-    drag_first_page_to_last_with_css_class('.component')
+def drag_first_static_page_to_last(step):
+    drag_first_to_last_with_css('.component')
 
 
 @step(u'I have created a static page$')
@@ -120,24 +123,21 @@ def pages_are_switched(step):
 
 @step(u'I drag the first page to the last$')
 def drag_first_page_to_last(step):
-    drag_first_page_to_last_with_css_class('.is-movable')
-
-
-css_for_tab_element = "li[data-tab-id='{0}'] input.toggle-checkbox"
+    drag_first_to_last_with_css('.is-movable')
 
 
 @step(u'I should see the "([^"]*)" page as "(visible|hidden)"$')
 def page_is_visible_or_hidden(step, page_id, visible_or_hidden):
     hidden = visible_or_hidden == "hidden"
-    assert_equal(world.css_find(css_for_tab_element.format(page_id)).checked, hidden)
+    assert_equal(world.css_find(CSS_FOR_TAB_ELEMENT.format(page_id)).checked, hidden)
 
 
 @step(u'I toggle the visibility of the "([^"]*)" page$')
 def page_toggle_visibility(step, page_id):
-    world.css_find(css_for_tab_element.format(page_id))[0].click()
+    world.css_find(CSS_FOR_TAB_ELEMENT.format(page_id))[0].click()
 
 
-def drag_first_page_to_last_with_css_class(css_class):
+def drag_first_to_last_with_css(css_class):
     # For some reason, the drag_and_drop method did not work in this case.
     draggables = world.css_find(css_class + ' .drag-handle')
     source = draggables.first
@@ -152,4 +152,3 @@ def see_pages_in_expected_order(page_names_in_expected_order):
     assert_equal(len(page_names_in_expected_order), len(pages))
     for i, page_name in enumerate(page_names_in_expected_order):
         assert_in(page_name, pages[i].text)
-
