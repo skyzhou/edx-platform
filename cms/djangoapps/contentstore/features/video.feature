@@ -3,15 +3,15 @@ Feature: CMS Video Component
   As a course author, I want to be able to view my created videos in Studio
 
   # 1
-  Scenario: YouTube mock server proxies YouTube API correctly
-    Given youtube mock server is up and proxies YouTube API
+  Scenario: YouTube stub server proxies YouTube API correctly
+    Given youtube stub server is up and proxies YouTube API
     Given I have created a Video component
     And I click video button "play"
     Then I see video button "pause"
 
   # 2
-  Scenario: YouTube mock server can block YouTube API
-    Given youtube mock server is up and blocks YouTube API
+  Scenario: YouTube stub server can block YouTube API
+    Given youtube stub server is up and blocks YouTube API
     Given I have created a Video component
     Given We explicitly wait for YouTube API to not load
     Then I do not see video button "play"

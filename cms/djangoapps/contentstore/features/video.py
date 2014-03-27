@@ -21,12 +21,12 @@ SELECTORS = {
 DELAY = 0.5
 
 
-@step('youtube mock server is up and proxies YouTube API$')
+@step('youtube stub server is up and proxies YouTube API$')
 def set_real_youtube_api(_step):
     world.youtube.config['youtube_api_blocked'] = False
 
 
-@step('youtube mock server is up and blocks YouTube API$')
+@step('youtube stub server is up and blocks YouTube API$')
 def block_youtube_api(_step):
     world.youtube.config['youtube_api_blocked'] = True
 
