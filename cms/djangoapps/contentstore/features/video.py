@@ -21,11 +21,26 @@ SELECTORS = {
 DELAY = 0.5
 
 
+@step('youtube mock server is up and proxies YouTube API$')
+def set_real_youtube_api(_step):
+    world.youtube.config['youtube_api_blocked'] = False
+
+
+@step('youtube mock server is up and blocks YouTube API$')
+def block_youtube_api(_step):
+    world.youtube.config['youtube_api_blocked'] = True
+
+
+@step('We explicitly wait for YouTube API to not load$')
+def wait_for_youtube_api_fail(_step):
+    world.wait(3)
+
+
 @step('I have created a Video component$')
-def i_created_a_video_component(step):
+def i_created_a_video_component(_step):
     world.create_course_with_unit()
     world.create_component_instance(
-        step=step,
+        step=_step,
         category='video',
     )
 
@@ -198,6 +213,22 @@ def see_a_range_slider_with_proper_range(_step):
     world.wait_for_visible(VIDEO_BUTTONS['pause'])
 
     assert world.css_visible(".slider-range")
+
+
+@step('I do not see video button "([^"]*)"$')
+def do_not_see_button_video(_step, button_type):
+    world.wait(DELAY)
+    world.wait_for_ajax_complete()
+    button = button_type.strip()
+    assert not world.is_css_present(VIDEO_BUTTONS[button])
+
+
+@step('I see video button "([^"]*)"$')
+def see_button_video(_step, button_type):
+    world.wait(DELAY)
+    world.wait_for_ajax_complete()
+    button = button_type.strip()
+    assert world.css_visible(VIDEO_BUTTONS[button])
 
 
 @step('I click video button "([^"]*)"$')
