@@ -93,14 +93,14 @@ def reorder_tabs_handler(course_item, request):
     # The locators are used to identify static tabs since they are xmodules.
     # Although all tabs have tab_ids, newly created static tabs do not know
     # their tab_ids since the xmodule editor uses only locators to identify new objects.
-    ids_locators_of_new_tab_order = request.json['tabs']
+    requested_tab_id_locators = request.json['tabs']
 
     # original tab list in original order
     old_tab_list = course_item.tabs
 
     # create a new list in the new order
     new_tab_list = []
-    for tab_id_locator in ids_locators_of_new_tab_order:
+    for tab_id_locator in requested_tab_id_locators:
         tab = get_tab_by_tab_id_locator(old_tab_list, tab_id_locator)
         if tab is None:
             return JsonResponse(
