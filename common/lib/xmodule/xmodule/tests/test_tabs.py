@@ -540,7 +540,7 @@ class CourseTabListTestCase(TabListTestCase):
         )):
             self.assertEquals(tab.type, self.course.tabs[i].type)
 
-        # enumerate the tabs and verify textbooks and the instructor tab
+       # enumerate the tabs and verify textbooks and the instructor tab
         for i, tab in enumerate(tabs.CourseTabList.iterate_displayable(
             self.course,
             self.settings,
@@ -554,6 +554,19 @@ class CourseTabListTestCase(TabListTestCase):
             else:
                 # all other tabs must match the expected type
                 self.assertEquals(tab.type, self.course.tabs[i].type)
+
+        # test including non-empty collections
+        self.assertIn(
+            tabs.HtmlTextbookTabs(),
+            list(tabs.CourseTabList.iterate_displayable_cms(self.course, self.settings)),
+        )
+
+        # test not including empty collections
+        self.course.html_textbooks = []
+        self.assertNotIn(
+            tabs.HtmlTextbookTabs(),
+            list(tabs.CourseTabList.iterate_displayable_cms(self.course, self.settings)),
+        )
 
     def test_get_tab_by_methods(self):
         """Tests the get_tab methods in CourseTabList"""

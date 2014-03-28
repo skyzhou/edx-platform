@@ -802,6 +802,9 @@ class CourseTabList(List):
         """
         for tab in course.tabs:
             if tab.can_display(course, settings, is_user_authenticated=True, is_user_staff=True):
+                if tab.is_collection and not len(list(tab.items(course))):
+                    # do not yield collections that have no items
+                    continue
                 yield tab
 
     @classmethod
