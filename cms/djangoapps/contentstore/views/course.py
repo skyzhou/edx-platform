@@ -22,7 +22,7 @@ from edxmako.shortcuts import render_to_response
 from xmodule.error_module import ErrorDescriptor
 from xmodule.modulestore.django import modulestore, loc_mapper
 from xmodule.contentstore.content import StaticContent
-from xmodule.tabs import PDFTextbookTabs, CourseTabList
+from xmodule.tabs import PDFTextbookTabs
 
 from xmodule.modulestore.exceptions import (
     ItemNotFoundError, InvalidLocationError)
@@ -921,10 +921,6 @@ def textbooks_detail_handler(request, tid, tag=None, package_id=None, branch=Non
         remaining_textbooks = course.pdf_textbooks[0:i]
         remaining_textbooks.extend(course.pdf_textbooks[i + 1:])
         course.pdf_textbooks = remaining_textbooks
-        if not remaining_textbooks:
-            # if there are no more textbooks, remove the textbookTab from the list of tabs
-            textbook_tab = CourseTabList.get_tab_by_id(course.tabs, PDFTextbookTabs.type)
-            course.tabs.remove(textbook_tab)
         store.update_item(course, request.user.id)
         return JsonResponse()
 
